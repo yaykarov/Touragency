@@ -28,9 +28,9 @@ public class UserService {
 
     /**
     Метод для создания нового пользователя.
-    param user - объект пользователя, которого нужно сохранить.
-     return true, если пользователь был успешно создан,
-     false - если пользователь с таким email уже существует.
+    @param user - объект пользователя, которого нужно сохранить.
+     @return true, если пользователь был успешно создан,
+     @false - если пользователь с таким email уже существует.
      */
     public boolean createUser(User user) {
         String email = user.getEmail();
@@ -45,7 +45,7 @@ public class UserService {
 
     /**
      Метод для получения списка всех пользователей.
-     return список всех пользователей.
+     @return список всех пользователей.
      */
 
     public List<User> list() {
@@ -54,7 +54,7 @@ public class UserService {
     /**
 
      Метод для блокировки/разблокировки пользователя.
-     param id - идентификатор пользователя, которого нужно заблокировать/разблокировать.
+     @param id - идентификатор пользователя, которого нужно заблокировать/разблокировать.
      */
     public void banUser(Long id) {
         User user = userRepository.findById(id).orElse(null);
@@ -71,8 +71,8 @@ public class UserService {
     }
     /**
      Метод для изменения ролей пользователя.
-     param user - объект пользователя, роли которого нужно изменить.
-     param form - Map, содержащая новые роли пользователя.
+     @param user - объект пользователя, роли которого нужно изменить.
+     @param form - Map, содержащая новые роли пользователя.
      */
     public void changeUserRoles(User user, Map<String, String> form) {
         Set<String> roles = Arrays.stream(Role.values())

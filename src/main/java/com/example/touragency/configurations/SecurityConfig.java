@@ -11,11 +11,23 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+
+ Конфигурация безопасности приложения.
+ */
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    /**
+
+     Сервис, отвечающий за загрузку информации о пользователе из базы данных.
+     */
     private final CustomUserDetailsService userDetailsService;
+    /**
+
+     Настройка доступа к страницам приложения в зависимости от прав пользователя.
+     */
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -32,13 +44,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll();
     }
+    /**
 
+     Настройка способа аутентификации пользователя в приложении.
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
+    /**
 
+     Создание бина для кодирования паролей пользователей.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(8);

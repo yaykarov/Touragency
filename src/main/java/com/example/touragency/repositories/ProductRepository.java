@@ -6,10 +6,14 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-/*
-Jpa репозиторий для поиска по заголовку
- */
 public interface ProductRepository extends JpaRepository<Product, Long> {
+
+    /**
+
+     Метод для поиска товаров по названию, описанию, цене и городу.
+     @param title строка, которую необходимо найти в названии, описании, цене или городе товара.
+     @return список объектов Product, соответствующих переданной строке, или пустой список, если товары не найдены.
+     */
     @Query("SELECT i from Product i where concat(i.title, ' ', i.description, ' ', i.price, ' ', i.city) like concat('%', :title, '%', '%', '%')")
     List<Product> findByTitle(String title);
 }

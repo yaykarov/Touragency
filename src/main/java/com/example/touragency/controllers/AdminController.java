@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
-//Контроллер для страниц администратора.
+
+/**Контроллер для страниц администратора.
+ */
 
 @Controller
 @RequiredArgsConstructor
@@ -62,9 +64,8 @@ public class AdminController {
     /**
 
      Отображение страницы редактирования пользователя.
-     param user пользователь для редактирования
-     param model модель для передачи данных на страницу
-     return имя представления для отображения страницы
+     @param user пользователь для редактирования
+     @return имя представления для отображения страницы
      */
 
     @PostMapping("/admin/user/edit")

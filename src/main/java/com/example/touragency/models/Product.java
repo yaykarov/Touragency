@@ -20,21 +20,21 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO) //аннотация для указания, что значение поля id будет генерироваться автоматически.
     @Column(name = "id") //аннотация для указания, что поле соответствует столбцу таблицы.
     private Long id;
-    @Column(name = "title")
+    @Column(name = "title")// Указывает имя столбца в таблице базы данных, с которым сопоставлено это поле.
     private String title;
-    @Column(name = "description", columnDefinition = "text")
+    @Column(name = "description", columnDefinition = "text") // Указывает имя и тип данных столбца в таблице базы данных, с которым сопоставляется это поле
     private String description;
-    @Column(name = "price")
+    @Column(name = "price")// Указывает стоимость столбца в таблице базы данных, с которым сопоставлено это поле.
     private int price;
     @Column(name = "city")
     private String city;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-    @JoinColumn
+    @JoinColumn // Указывает имя столбца внешнего ключа в таблице базы данных, который связывает этот объект с пользовательским объектом.
     private User user;
     private LocalDateTime dateofCreated;
 
-    @PrePersist
+    @PrePersist // Указывает, что этот метод должен быть вызван до того, как этот объект будет сохранен в базе данных.
     private void init() {
         dateofCreated = LocalDateTime.now();
     }

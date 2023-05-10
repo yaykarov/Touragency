@@ -10,38 +10,60 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
+/**
 
+ Сервис для работы с продуктами.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    /**
 
-    //Метод, который возвращает список товаров с указанным заголовком,
-    // если заголовок задан, или все товары в противном случае.
+     Метод для получения списка продуктов.
+     @param title строка для поиска продуктов по названию или описанию. Может быть null.
+     @return список продуктов, найденных по заданному критерию или список всех продуктов, если title == null.
+     */
+
     public List<Product> listProducts(String title) {
         if (title != null) return productRepository.findByTitle(title);
         return productRepository.findAll();
     }
 
-    //Метод, который сохраняет новый товар в базу данных.
-    // Получает объект Principal для получения информации о текущем пользователе.
+    /**
+
+     Метод для сохранения нового продукта.
+     @param principal текущий пользователь, который сохраняет продукт.
+     @param product продукт, который нужно сохранить.
+     @throws IOException если произошла ошибка ввода-вывода при сохранении продукта.
+     */
     public void saveProduct(Principal principal, Product product) throws IOException {
         product.setUser(getUserByPrincipal(principal));
         log.info("Saving new Product. Title: {}; Author email: {}", product.getTitle(), product.getUser().getEmail());
         Product productFromDb = productRepository.save(product);
         productRepository.save(product);
     }
+    /**
 
-    //Метод, который возвращает объект пользователя, который соответствует текущему Principal.
+     Метод для получения пользователя по его Principal.
+     @param principal Principal пользователя, чьи данные нужно получить.
+     @return объект User, соответствующий переданному Principal.
+     */
+
     public User getUserByPrincipal(Principal principal) {
         if (principal == null) return new User();
         return userRepository.findByEmail(principal.getName());
     }
 
-    //Метод, который удаляет товар из базы данных.
-    // Получает объект пользователя и идентификатор товара, который нужно удалить.
+    /**
+
+     Метод для удаления продукта.
+     @param user пользователь, который пытается удалить продукт.
+     @param id идентификатор продукта, который нужно удалить.
+     */
+
     public void deleteProduct(User user, Long id) {
         Product product = productRepository.findById(id)
                 .orElse(null);
@@ -56,8 +78,12 @@ public class ProductService {
             log.error("Product with id = {} is not found", id);
         }
     }
+    /**
 
-    //Метод, который возвращает товар с указанным идентификатором.
+     Метод для получения продукта по его идентификатору.
+     @param id идентификатор продукта, который нужно получить.
+     @return объект Product, соответствующий переданному идентификатору, или null, если продукт не найден.
+     */
     public Product getProductById(Long id) {
         return productRepository.findById(id).orElse(null);
     }
